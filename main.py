@@ -45,7 +45,7 @@ class WebCrawler:
 
 def main():
     crawler = WebCrawler()
-    start_url = "https://example.com"
+    start_url = "https://www.flipkart.com" #valid url is taken
     crawler.crawl(start_url)
 
     keyword = "test"
