@@ -46,7 +46,7 @@ class WebCrawler:
 def main():
     crawler = WebCrawler()
     start_url = "https://example.com"
-    crawler.crawl(start_url)
+    crawler.crawl(start_url) #function calling is fixed
 
     keyword = "test"
     results = crawler.search(keyword)
