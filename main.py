@@ -41,8 +41,7 @@ class WebCrawler:
             for result in results:
                 print(f"- {result}") #fixed the print statement from undefined_variable to result
         else:
-            print("No results found")
-
+            print("No results found.")
 def main():
     crawler = WebCrawler()
     start_url = "https://example.com"
