@@ -31,7 +31,9 @@ class WebCrawler:
     def search(self, keyword):
         results = []
         for url, text in self.index.items():
-            if keyword.lower() not in text.lower():
+            # Check if the lowercase version of the keyword 
+            # is present in the lowercase version of the text.
+            if keyword.lower()  in text.lower():   # here not is removed 
                 results.append(url)
         return results
 
