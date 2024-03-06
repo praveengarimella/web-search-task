@@ -46,7 +46,9 @@ class WebCrawler:
 def main():
     crawler = WebCrawler()
     start_url = "https://example.com"
-    crawler.craw(start_url)
+    #  THE BUG IS FOUND HERE
+    # crawler.craw(start_url)  This line contains bug. The name of the function is typed wrong.
+    crawler.crawl(start_url)     # the bug is fixed. 
 
     keyword = "test"
     results = crawler.search(keyword)
