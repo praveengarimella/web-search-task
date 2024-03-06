@@ -39,14 +39,14 @@ class WebCrawler:
         if results:
             print("Search results:")
             for result in results:
-                print(f"- {undefined_variable}")
+                print(result) #changed undefined variables to result
         else:
             print("No results found.")
 
 def main():
     crawler = WebCrawler()
     start_url = "https://example.com"
-    crawler.crawl(start_url) #function calling is fixed
+    crawler.crawl(start_url) # changed craw to crawl, # function calling is fixed
 
     keyword = "test"
     results = crawler.search(keyword)
