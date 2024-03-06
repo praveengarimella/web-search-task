@@ -10,8 +10,7 @@ class WebCrawler:
 
     def crawl(self, url, base_url=None):
         if url in self.visited:
-            return
-        self.visited.add(url)
+            return self.visited.add(url) # fixed the indentation error.
 
         try:
             response = requests.get(url)
@@ -39,14 +38,14 @@ class WebCrawler:
         if results:
             print("Search results:")
             for result in results:
-                print(f"- {undefined_variable}")
+                print(f"- {result}") # modified the code by changing the variable name.
         else:
             print("No results found.")
 
 def main():
     crawler = WebCrawler()
-    start_url = "https://example.com"
-    crawler.crawl(start_url) #function calling is fixed
+    start_url = "https://www.msit.ac.in" # changed the URL from example to msit
+    crawler.crawl(start_url) #function calling is fixed.
 
     keyword = "test"
     results = crawler.search(keyword)
