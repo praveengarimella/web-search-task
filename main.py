@@ -23,7 +23,7 @@ class WebCrawler:
                 if href:
                     if urlparse(href).netloc:
                         href = urljoin(base_url or url, href)
-                    if href.startswith(base_url or url): # removed not in this line of code
+                    if href.startswith(base_url or url): # removed not in this line of code because it has to crawl up when the url is matched
                         self.crawl(href, base_url=base_url or url)
         except Exception as e:
             print(f"Error crawling {url}: {e}")
@@ -31,7 +31,7 @@ class WebCrawler:
     def search(self, keyword):
         results = []
         for url, text in self.index.items():
-            if keyword.lower() in text.lower(): # removed not from this statement
+            if keyword.lower() in text.lower(): # removed not from this statement because the urls will not be appended into the list(results)
                 results.append(url)
         return results
 
@@ -39,16 +39,16 @@ class WebCrawler:
         if results:
             print("Search results:")
             for result in results:
-                print(f"- {result}") # modified the code by changing the variable name.
+                print(f"- {result}") # modified the code by changing the variable name which was causing the error.
         else:
             print("No results found.")
 
 def main():
     crawler = WebCrawler()
-    start_url = "https://msit.ac.in/" # changed the URL from example to msit
-    crawler.crawl(start_url) #function calling is fixed.
+    start_url = "https://www.youtube.com/" # changed the URL from example to msit
+    crawler.crawl(start_url) #function calling is fixed.(spelling mistake fixed)
 
-    keyword = "msit" # fixed the key word
+    keyword = "water" # Modified the key word
     results = crawler.search(keyword)
     crawler.print_results(results)
 
