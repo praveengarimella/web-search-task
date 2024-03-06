@@ -11,7 +11,7 @@ class WebCrawler:
     def crawl(self, url, base_url=None):
         if url in self.visited:
             return
-        self.visited.add(url)
+            self.visited.add(url)
 
         try:
             response = requests.get(url)
@@ -31,7 +31,7 @@ class WebCrawler:
     def search(self, keyword):
         results = []
         for url, text in self.index.items():
-            if keyword.lower() not in text.lower():
+            if keyword.lower() in text.lower(): #Here it was written not in it was changed to in because when we write not in then it will never add into results list. To fix it we add all the words which are in them and add all to results list.   
                 results.append(url)
         return results
 
