@@ -23,7 +23,7 @@ class WebCrawler:
                 if href:
                     if urlparse(href).netloc:
                         href = urljoin(base_url or url, href)
-                    if not href.startswith(base_url or url):
+                    if  href.startswith(base_url or url): #removed not to stop the loop
                         self.crawl(href, base_url=base_url or url)
         except Exception as e:
             print(f"Error crawling {url}: {e}")
@@ -31,7 +31,7 @@ class WebCrawler:
     def search(self, keyword):
         results = []
         for url, text in self.index.items():
-            if keyword.lower() not in text.lower():
+            if keyword.lower() not  in text.lower(): 
                 results.append(url)
         return results
 
