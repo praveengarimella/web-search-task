@@ -78,11 +78,15 @@ class WebCrawlerTests(unittest.TestCase):
         self.assertIn("https://example.com/about", crawler.visited)
 
     @patch('requests.get')
-    def test_crawl_error(self, mock_get):
-        mock_get.side_effect = requests.exceptions.RequestException("Test Error")
-
-        crawler = WebCrawler()
+    def test_crawl_error(self):
+    # Using assertRaises to check if a RequestException is raised during the crawl.
+        with self.assertRaises(requests.exceptions.RequestException):
+        # Creating a WebCrawler instance to test the crawl method.
+            crawler = WebCrawler()
+        
+        # Invoking the crawl method with a URL that triggers a simulated error.
         crawler.crawl("https://example.com")
+
 
         # Assertions to check if the error was logged (you'll
         # likely need to set up logging capture in your tests)
