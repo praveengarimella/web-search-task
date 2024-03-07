@@ -42,7 +42,7 @@ class WebCrawlerTests(unittest.TestCase):
         crawler.index["page2"] = "No keyword here"
 
         results = crawler.search("keyword")
-        self.assertEqual(results, ["page2"])
+        self.assertEqual(results, ["page1","page2"]) #added two pages. # here it was kept only one page
 
     @patch('sys.stdout')
     def test_print_results(self, mock_stdout):
@@ -53,4 +53,3 @@ class WebCrawlerTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()  # Run unit tests
-    main()  # Run your main application logic 
