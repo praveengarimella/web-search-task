@@ -7,38 +7,28 @@ class WebCrawler:
     def __init__(self):
         self.index = defaultdict(list)
         self.visited = set()
-def crawl(self, url, base_url=None):
-    # Check if the URL has been visited before to avoid unnecessary crawling.
-    if url in self.visited:
-        return
-    
-    # Mark the current URL as visited.
-    self.visited.add(url)
 
-    try:
-        # Send a GET request to the URL and parse the HTML content.
-        response = requests.get(url)
-        soup = BeautifulSoup(response.text, 'html.parser')
+    def crawl(self, url, base_url=None):
+        # Check if the URL has been visited before to avoid unnecessary crawling.
+        if url in self.visited:
+            return
+        self.visited.add(url)
 
-        # Index the URL with its corresponding text content.
-        self.index[url] = soup.get_text()
+        try:
+            response = requests.get(url)
+            soup = BeautifulSoup(response.text, 'html.parser')
+            self.index[url] = soup.get_text()
 
-        # Extract and crawl all anchor links ('a' tags) in the HTML.
-        for link in soup.find_all('a'):
-            href = link.get('href')
-
-            # Check if the href attribute exists.
-            if href:
-                # Construct the new URL by joining the base_url and href.
-                new_url = urljoin(base_url, href) if base_url else urljoin(url, href)
-
-                # Ensure the new URL is within the scope of the base_url or original URL.
-                if new_url.startswith(url):
-                    # Recursively crawl the new URL, considering the base_url if provided.
-                    self.crawl(new_url, base_url=base_url or url)
-    except Exception as e:
-        # Print an error message if there's an exception during crawling.
-        print(f"Error crawling {url}: {e}")
+            for link in soup.find_all('a'):
+                href = link.get('href')
+                if href:
+                    if urlparse(href).netloc:
+                        href = urljoin(base_url or url, href)
+                    if href.startswith(base_url or url):
+                        # Recursively crawl the new URL, considering the base_url if provided.
+                        self.crawl(href, base_url=base_url or url)  # Fixed the error as "craw" to "crawl" - Error -4
+        except Exception as e:
+            print(f"Error crawling {url}: {e}")
 
 
 
