@@ -101,12 +101,12 @@ class WebCrawlerTests(unittest.TestCase):
 
     @patch('builtins.print')
     def test_print_results(self, mock_print):
-    # Creating a WebCrawler instance to test the print_results method.
+        # Creating a WebCrawler instance to test the print_results method.
         crawler = WebCrawler()
-        
+
         # Invoking the print_results method with a list of search results.
         crawler.print_results(["https://test.com/result"])
-        
+
         # Asserting that the 'print' function was called with the expected strings.
         mock_print.assert_called_with("Search results:")
         mock_print.assert_called_with("- https://test.com/result")
@@ -115,7 +115,7 @@ class WebCrawlerTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()  # Run unit tests
-    main()  # Run your main application logic 
+    main()  # Run your main application logic
 
 
 if __name__ == "__main__":
