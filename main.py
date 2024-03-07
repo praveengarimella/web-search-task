@@ -23,11 +23,10 @@ class WebCrawler:
                 if href:
                     if urlparse(href).netloc:
                         href = urljoin(base_url or url, href)
-                    if not href.startswith(base_url or url):
+                    if href.startswith(base_url or url): #not removed since for "loop" goes into "infinity loop"
                         self.crawl(href, base_url=base_url or url)
         except Exception as e:
             print(f"Error crawling {url}: {e}")
-
     def search(self, keyword):
         results = []
         for url, text in self.index.items():
