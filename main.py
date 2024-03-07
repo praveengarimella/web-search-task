@@ -99,10 +99,17 @@ class WebCrawlerTests(unittest.TestCase):
         results = crawler.search("keyword")
         self.assertEqual(results, ["page2"])
 
-    @patch('sys.stdout')
-    def test_print_results(self, mock_stdout):
+    @patch('builtins.print')
+    def test_print_results(self, mock_print):
+    # Creating a WebCrawler instance to test the print_results method.
         crawler = WebCrawler()
+        
+        # Invoking the print_results method with a list of search results.
         crawler.print_results(["https://test.com/result"])
+        
+        # Asserting that the 'print' function was called with the expected strings.
+        mock_print.assert_called_with("Search results:")
+        mock_print.assert_called_with("- https://test.com/result")
 
         # Assert that the output was captured correctly by mock_stdout
 
