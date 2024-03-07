@@ -8,8 +8,8 @@ class WebCrawler:
         self.index = defaultdict(list)
         self.visited = set()
 
-    def crawl(self, url, base_url=None):
-        if url in self.visited:
+    def crawl(self, url, base_url=None, depth = 0, max_depth = 4):
+        if url in self.visited or depth > max_depth:
             return
         self.visited.add(url)
 
@@ -24,7 +24,7 @@ class WebCrawler:
                     if urlparse(href).netloc:
                         href = urljoin(base_url or url, href)
                     if href.startswith(base_url or url):
-                        self.crawl(href, base_url=base_url or url)
+                        self.crawl(href, base_url=base_url or url,depth=depth+1, max_depth=max_depth)
         except Exception as e:
             print(f"Error crawling {url}: {e}")
 
@@ -45,12 +45,12 @@ class WebCrawler:
 
 def main():
     crawler = WebCrawler()
-    start_url = "https://www.msit.ac.in/"
+    start_url = "https://www.msit.ac.in"
     crawler.crawl(start_url) # changed craw to crawl, # function calling is fixed
 
     keyword = "murthy"
     results = crawler.search(keyword)
     crawler.print_results(results)
-    
+
 if __name__ == "__main__":
     main()
