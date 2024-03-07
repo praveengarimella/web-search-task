@@ -37,6 +37,23 @@ class WebCrawlerTests(unittest.TestCase):
         # Assertions to check if the error was logged (you'll
         # likely need to set up logging capture in your tests)
 
+    def test_crawl_with_base_url(self):
+        crawler = WebCrawler()
+        base_url = "https://example.com"
+        crawler.crawl(base_url, base_url=base_url)
+
+        # Assert that the base URL is in the visited set
+        self.assertIn(base_url, crawler.visited)
+
+    def test_crawl_no_duplicate_urls(self):
+        crawler = WebCrawler()
+        url = "https://example.com"
+        crawler.visited.add(url)  # Add the URL to visited
+        crawler.crawl(url)
+
+        # Assert that the URL wasn't crawled again
+        self.assertNotIn(url, crawler.visited)
+        
     def test_search(self):
         crawler = WebCrawler()
         crawler.index["page1"] = "This has the keyword"
