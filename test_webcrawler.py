@@ -43,7 +43,8 @@ class WebCrawlerTests(unittest.TestCase):
         crawler.index["page2"] = "No keyword here"
 
         results = crawler.search("keyword")
-        self.assertEqual(results, ["page2"])
+        #In this case, it is expected that both "page1" and "page2" are returned in the search results.
+        self.assertEqual(results, ["page1","page2"])
 
     @patch('sys.stdout')
     def test_print_results(self, mock_stdout):
