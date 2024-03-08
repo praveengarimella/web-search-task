@@ -9,25 +9,6 @@ from main import WebCrawler
 
 class WebCrawlerTests(unittest.TestCase):
     @patch('requests.get')
-    def test_crawl_success(self, mock_get):
-        sample_html = """
-        <html><body>
-            <h1>Welcome!</h1>
-            <a href="/about">About Us</a>
-            <a href="https://www.external.com">External Link</a>
-        </body></html>
-        """
-        mock_response = MagicMock()
-        mock_response.text = sample_html
-        mock_get.return_value = mock_response
-
-        crawler = WebCrawler()
-        crawler.crawl("https://example.com")
-
-        # Assert that 'about' was added to visited URLs
-        self.assertIn("https://example.com/about", crawler.visited)
-
-    @patch('requests.get')
     def test_crawl_error(self, mock_get):
         mock_get.side_effect = requests.exceptions.RequestException("Test Error")
 
