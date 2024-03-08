@@ -45,7 +45,14 @@ class WebCrawlerTests(unittest.TestCase):
         results = crawler.search("keyword")
         #In this case, it is expected that both "page1" and "page2" are returned in the search results.
         self.assertEqual(results, ["page1","page2"])
+    
+    def test_search_with_keyword_present(self):
+        crawler=WebCrawler()
+        crawler.index["page1"]="This page contains the keyword multiple times. keyword keyword"
+        crawler.index["page2"]="No keyword here"
 
+        results=crawler.search("keyword")
+        self.assertEqual(results,["page1","page2"])
     @patch('sys.stdout')
     def test_print_results(self, mock_stdout):
         crawler = WebCrawler()
