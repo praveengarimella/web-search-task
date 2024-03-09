@@ -42,6 +42,7 @@ class WebCrawler:
                 print(f"- {result}") #"undefined_variable" to "result" - Error -2
         else:
             print("No results found.")
+
 def main():
     crawler = WebCrawler()
     start_url = "https://example.com"
@@ -49,7 +50,6 @@ def main():
     keyword = "test"
     results = crawler.search(keyword)
     crawler.print_results(results)
-
 import unittest
 from unittest.mock import patch, MagicMock
 import requests
