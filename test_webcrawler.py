@@ -68,7 +68,6 @@ class WebCrawlerTests(unittest.TestCase):
 
         # Assert that the output was captured correctly by mock_stdout
 
-if _name_ == "_main_":
-    unittest.main()  # Run unit tests
+unittest.main()  # Run unit tests
 
-main()
+
