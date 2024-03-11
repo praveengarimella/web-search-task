@@ -13,10 +13,12 @@ class WebCrawlerTests(unittest.TestCase):
         <html><body>
             <h1>Welcome!</h1>
             <a href="/about">About Us</a>
-            <a href="https://www.external.com/about">External Link</a>
+            <a href="https://www.external.com/about">External Link</a> 
             <a href="https://www.external.com">External Link</a>
         </body></html>
         """
+
+        # added an extra line in sample_html
         mock_response = MagicMock()
         mock_response.text = sample_html
         mock_get.return_value = mock_response
@@ -36,6 +38,8 @@ class WebCrawlerTests(unittest.TestCase):
 
         # Assertions to check if the error was logged (you'll
         # likely need to set up logging capture in your tests)
+
+    # adding an extra method to avoid the error message while crawling.
     @patch('requests.get')
     def test_crawl_external_link(self, mock_get):
         sample_html = """
@@ -66,8 +70,5 @@ class WebCrawlerTests(unittest.TestCase):
 
 if _name_ == "_main_":
     unittest.main()  # Run unit tests
-    main()  # Run your main application logic 
 
-
-if _name_ == "_main_":
-    main()
+main()
