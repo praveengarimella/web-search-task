@@ -12,7 +12,6 @@ class WebCrawler:
         if url in self.visited:
             return
         self.visited.add(url)
-
         try:
             response = requests.get(url)
             soup = BeautifulSoup(response.text, 'html.parser')
@@ -21,14 +20,15 @@ class WebCrawler:
             for link in soup.find_all('a'):
                 href = link.get('href')
                 if href:
-                    if urlparse(href).netloc:
-                        href = urljoin(base_url or url, href)
-                    if href.startswith(base_url or url):
-                        self.crawl(href, base_url=base_url or url)
+                    full_url = urljoin(url, href)
+                    if urlparse(full_url).netloc == urlparse(url).netloc:
+                        self.crawl(full_url, base_url=base_url or url)
         except Exception as e:
             print(f"Error crawling {url}: {e}")
 
     def search(self, keyword):
+        if not keyword.strip():
+            return []
         results = []
         for url, text in self.index.items():
             if keyword.lower() in text.lower():
@@ -45,12 +45,13 @@ class WebCrawler:
 
 def main():
     crawler = WebCrawler()
-    start_url = "https://blogs.msit.ac.in/"
     # start_url = "https://www.vilvahstore.com/"
+    start_url = "https://blogs.msit.ac.in/"
     crawler.crawl(start_url)
 
-    keyword = "machine"
     # keyword = "serum"
+    keyword = "framework"
+    
     results = crawler.search(keyword)
     crawler.print_results(results)
 
