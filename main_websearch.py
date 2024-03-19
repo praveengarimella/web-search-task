@@ -102,9 +102,9 @@ def main():
     indexer = Indexer()
     ranker = Ranker(indexer.index)
     crawler = WebCrawler(indexer, ranker)
-    start_url = input("Enter starting URL: ")
+    start_url = "https://www.msit.ac.in/"
     crawler.crawl(start_url)
-    query = input("Enter search query: ")
+    query = "MSIT"
     results = crawler.search(query)
     crawler.print_results(results)
 
