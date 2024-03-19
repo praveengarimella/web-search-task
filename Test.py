@@ -55,9 +55,10 @@ class Ranker:
 
 
 class WebCrawler:
-    def __init__(self):
+    def __init__(self, indexer, ranker):
+        self.indexer = indexer
+        self.ranker = ranker
         self.visited = set()
-        self.index = {}
 
     def crawl(self, url, base_url=None):
         if url in self.visited:
@@ -67,7 +68,8 @@ class WebCrawler:
         try:
             response = requests.get(url)
             soup = BeautifulSoup(response.text, 'html.parser')
-            self.index[url] = soup.get_text()
+            text_content = self.get_text_content(soup)
+            self.indexer.index_page(url, text_content)
 
             for link in soup.find_all('a'):
                 href = link.get('href')
