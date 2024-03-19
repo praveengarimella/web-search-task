@@ -1,3 +1,10 @@
+# Gherkin Scenario:
+# Scenario: User searches within a specific website
+# Given the user is on the search app
+# When the user enters the URL of a particular website 
+# And the user has been asked to give a keyword after typing the search URL.
+# And executes a search query within that specific site
+# Then the app should display all the URLs that contain keywords
 import requests
 from bs4 import BeautifulSoup
 from collections import defaultdict
@@ -27,6 +34,12 @@ class Indexer:
         stop_words = set(stopwords.words('english'))
         return [token for token in tokens if token not in stop_words]
 
+# Gherkin Scenario:
+# Scenario: Highlighting important part of the website in search results
+# Given the user has entered a search query
+# When the app displays the search results
+# Then the app should highlight the important part in the results of each website for better visibility
+
 class Ranker:
     def __init__(self, index):
         self.index = index
@@ -53,6 +66,12 @@ class Ranker:
         # Remove common stop words using NLTK stopwords
         return [token for token in tokens if token not in self.stop_words]
 
+
+# Gherkin Scenario:
+# Scenario: Providing relevant suggestions based on user search patterns
+# Given the app has access to user search patterns
+# When the user performs a search
+# Then the app should implement AI algorithms to provide relevant suggestions based on the user's search patterns
 
 class WebCrawler:
     def __init__(self, indexer, ranker):
