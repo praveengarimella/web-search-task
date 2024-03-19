@@ -3,10 +3,13 @@ from bs4 import BeautifulSoup
 from collections import defaultdict
 from urllib.parse import urljoin, urlparse
 import re
+import nltk
+from nltk.corpus import stopwords
 
 class Indexer:
     def __init__(self):
         self.index = defaultdict(list)
+        nltk.download('stopwords')  # Download stopwords if not already downloaded
 
     def index_page(self, url, text_content):
         tokens = self.tokenize_text(text_content)
@@ -20,13 +23,14 @@ class Indexer:
         return re.findall(r'\b\w+\b', text.lower())
 
     def remove_stop_words(self, tokens):
-        # Remove common stop words (this can be expanded)
-        stop_words = {'a', 'an', 'the', 'is', 'are', 'and', 'or', 'not'}
+        # Remove NLTK English stopwords
+        stop_words = set(stopwords.words('english'))
         return [token for token in tokens if token not in stop_words]
 
 class Ranker:
     def __init__(self, index):
         self.index = index
+        self.stop_words = set(stopwords.words('english'))
 
     def search(self, query):
         query_tokens = self.tokenize_text(query)
@@ -46,15 +50,14 @@ class Ranker:
         return re.findall(r'\b\w+\b', text.lower())
 
     def remove_stop_words(self, tokens):
-        # Remove common stop words (this can be expanded)
-        stop_words = {'a', 'an', 'the', 'is', 'are', 'and', 'or', 'not'}
-        return [token for token in tokens if token not in stop_words]
+        # Remove common stop words using NLTK stopwords
+        return [token for token in tokens if token not in self.stop_words]
+
 
 class WebCrawler:
-    def __init__(self, indexer, ranker):
-        self.indexer = indexer
-        self.ranker = ranker
+    def __init__(self):
         self.visited = set()
+        self.index = {}
 
     def crawl(self, url, base_url=None):
         if url in self.visited:
@@ -64,8 +67,7 @@ class WebCrawler:
         try:
             response = requests.get(url)
             soup = BeautifulSoup(response.text, 'html.parser')
-            text_content = self.get_text_content(soup)
-            self.indexer.index_page(url, text_content)
+            self.index[url] = soup.get_text()
 
             for link in soup.find_all('a'):
                 href = link.get('href')
