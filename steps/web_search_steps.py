@@ -36,3 +36,5 @@ def step_enter_search_query(context):
 def step_app_returns_results(context):
     results = context.crawler.search(context.query)
     assert len(results) == 0
+
+
