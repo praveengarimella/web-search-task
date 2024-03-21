@@ -9,16 +9,17 @@ crawler = WebCrawler(indexer, ranker)
 @app.route('/')
 def index():
     return 'Welcome to the Web Search API!'
-
-@app.route('/index', methods=['POST'])
+@app.route('/index_page', methods=['POST'])
 def index_page():
     data = request.json
     url = data.get('url')
-    try:
-        crawler.crawl(url)
-        return jsonify({"message": "Page indexed successfully!"})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    text_content = data.get('text_content')
+
+    if not url or not text_content:
+        return jsonify({'error': 'Both URL and text_content are required.'}), 400
+
+    indexer.index_page(url, text_content)
+    return jsonify({'message': 'Page indexed successfully.'}), 200
 
 @app.route('/crawl', methods=['POST'])
 def crawl():
@@ -26,25 +27,32 @@ def crawl():
     start_url = data.get('start_url')
     if not start_url:
         return jsonify({"error": "Start URL is required"}), 400
-    try:
-        crawler.crawl(start_url)
-        return jsonify({"message": "Crawling completed successfully!"})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    crawler.crawl(start_url)
+    return jsonify({"message": "Crawling completed successfully!"})
+
+
 
 @app.route('/search', methods=['GET'])
 def search():
     url = request.args.get('url')
     keyword = request.args.get('keyword')
 
-    if not url or not keyword:
-        return jsonify({"error": "Both URL and keyword are required parameters."}), 400
+    # Perform crawling on the specified URL
+    crawler.crawl(url)
 
+    # Search for the keyword in the crawled content
+    results = crawler.search(keyword)
+
+    return jsonify({"results": results})
+
+@app.route('/rank', methods=['GET'])
+def rank():
     try:
-        results = crawler.search(keyword)
-        return jsonify({"results": results})
+        ranked_index = ranker.rank_index()
+        return jsonify({"ranked_index": ranked_index})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)
